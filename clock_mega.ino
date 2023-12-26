@@ -393,6 +393,12 @@ void setup() {
   // Initialize RTC
   TCA9548A(1);
   URTCLIB_WIRE.begin();
+  // Setting RTC to December 27, 2023. Assuming the current time is around 12:00 (noon).
+  // Adjust the hour and minute as per the exact current time when you run this.
+  rtc.set(0, 2, 2, 3, 27, 12, 23);
+  // rtc.set(second, minute, hour, dayOfWeek, dayOfMonth, month, year)
+  // December 27, 2023 is a Wednesday (3 in 1=Sunday, 7=Saturday format)
+
 
   // Initialize all OLED displays
   for (int i = 2; i <= 7; i++) {
