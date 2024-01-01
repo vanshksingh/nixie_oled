@@ -12,9 +12,9 @@
 #define OLED_RESET     -1 // Reset pin # (or -1 if sharing Arduino reset pin)
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
+const int speakerPin = 25;
 
-
-RTC_DS1307 DS1307_RTC;
+RTC_DS3231 rtc;
 
 char Week_days[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
@@ -394,6 +394,7 @@ const unsigned char* epd_bitmap_allArray[10] = {
 
 
 void setup() {
+  
   Serial.begin(115200);
   Wire.begin();
   
@@ -401,12 +402,15 @@ void setup() {
 
   TCA9548A(1);
 
-  if (!DS1307_RTC.begin()) {
+  if (!rtc.begin()) {
     Serial.println("Couldn't find RTC");
-    while(1);
+    while (1);
   }
-   //DS1307_RTC.adjust(DateTime(F(__DATE__), F(__TIME__)));
-
+   if (rtc.lostPower()) {
+        Serial.println("RTC lost power, setting the time!");
+        // This line sets the RTC to the date & time this sketch was compiled
+        rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+    }
 
   // Initialize all OLED displays
   for (int i = 2; i <= 7; i++) {
@@ -445,7 +449,7 @@ void setup() {
   
 
 }
-delay(200000);
+//delay(200000);
 }//
 
 void displayDigit(int displayNumber, int digit) {
@@ -459,7 +463,7 @@ void displayDigit(int displayNumber, int digit) {
 
 void loop() {
   TCA9548A(1);  // Select the bus where RTC is connected before reading time
-  DateTime now = DS1307_RTC.now();
+  DateTime now = rtc.now();
 
 
 Serial.print("Current Date & Time: ");
@@ -542,16 +546,7 @@ void testscrolltext(void) {
   display.println(F("00101"));
   display.setTextWrap(1);
   display.display();      // Show initial text
-  delay(100);
-  
-  int pop = random(1000, 3000);
-
-  // Scroll in various directions, pausing in-between:
-  display.startscrollright(0x00, 0x0F);
-  delay(2000);
-  display.stopscroll();
-  delay(1000);
   display.startscrollleft(0x00, 0x0F);
-  delay(pop);
+  
   
 }
