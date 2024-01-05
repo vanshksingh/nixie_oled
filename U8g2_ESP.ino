@@ -394,7 +394,7 @@ void setup() {
   // Initialize OLED displays
   for (int i = 0; i < NUM_DISPLAYS; i++) {
     selectI2CChannel(i + 2);
-    u8g2[i].begin();
+    u8g2[i].begin(); 
   }
 }
 
@@ -432,7 +432,7 @@ void loop() {
     char additionalStr[15];              // Increased size for longer strings
     if (i == 0) {
       displayDigit(i, hour / 10);  // Day of the week
-      strcpy(additionalStr, daysOfTheWeek[now.dayOfTheWeek()]);
+      strcpy(additionalStr,daysOfTheWeek[now.dayOfTheWeek()]);
     } else if (i == 1) {
       displayDigit(i, hour % 10);  // Part of the day
       strcpy(additionalStr, partOfDay);
