@@ -77,7 +77,7 @@ This project is licensed under the MIT License - see the `LICENSE.md` file for d
 
 ## Contact
 
-For any additional questions or feedback, please contact the project maintainer at [your-email@example.com].
+For any additional questions or feedback, please contact the project maintainer at vsvsasas@gmail.com
 
 ---
 
