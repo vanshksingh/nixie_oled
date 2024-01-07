@@ -674,8 +674,8 @@ const unsigned char logo_icons8_temperature_48[] PROGMEM = {
 // Array of all bitmaps for convenience. (Total bytes used to store images in PROGMEM = 432)
 const int logo_allArray_LEN = 3;
 const unsigned char* logo_allArray[3] = {
-  logo_icons8_moon_48,
   logo_icons8_sun_48,
+  logo_icons8_moon_48,
   logo_icons8_temperature_48
 };
 
