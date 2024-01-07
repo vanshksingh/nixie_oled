@@ -1027,25 +1027,25 @@ void displayDigit(int displayNumber, int digit) {
 void displaylogo(int displayNumber, int digit) {
   selectI2CChannel(displayNumber + 2);
   // Display large time digits
-  u8g2[displayNumber].drawXBMP(0, 0, 32, 32, epd_bitmap_allArray[digit]);  // Adjust x, y, width, and height as needed
+  u8g2[displayNumber].drawXBMP(0, 0, 32, 32, logo_allArray[digit]);  // Adjust x, y, width, and height as needed
 }
 
 void display_day_of_the_week(int displayNumber, int digit) {
   selectI2CChannel(displayNumber + 2);
   // Display large time digits
-  u8g2[displayNumber].drawXBMP(0, 0, 32, 32, epd_bitmap_allArray[digit]);  // Adjust x, y, width, and height as needed
+  u8g2[displayNumber].drawXBMP(0, 0, 32, 32, day_of_the_weekallArray[digit]);  // Adjust x, y, width, and height as needed
 }
 
 void display_date(int displayNumber, int digit) {
   selectI2CChannel(displayNumber + 2);
   // Display large time digits
-  u8g2[displayNumber].drawXBMP(0, 0, 32, 32, epd_bitmap_allArray[digit]);  // Adjust x, y, width, and height as needed
+  u8g2[displayNumber].drawXBMP(0, 0, 32, 32, calendar_date_allArray[digit]);  // Adjust x, y, width, and height as needed
 }
 
 void display_month(int displayNumber, int digit) {
   selectI2CChannel(displayNumber + 2);
   // Display large time digits
-  u8g2[displayNumber].drawXBMP(0, 0, 32, 32, epd_bitmap_allArray[digit]);  // Adjust x, y, width, and height as needed
+  u8g2[displayNumber].drawXBMP(0, 0, 32, 32, Month_allArray[digit]);  // Adjust x, y, width, and height as needed
 }
 
 
