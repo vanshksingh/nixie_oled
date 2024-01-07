@@ -1020,32 +1020,33 @@ const unsigned char* epd_bitmap_allArray[10] = {
 
 void displayDigit(int displayNumber, int digit) {
   selectI2CChannel(displayNumber + 2);
+  u8g2[displayNumber].clearBuffer();
   // Display large time digits
-  u8g2[displayNumber].drawXBMP(0, 0, 32, 114, epd_bitmap_allArray[digit]);  // Adjust x, y, width, and height as needed
+  u8g2[displayNumber].drawXBMP(0, 0, 32, 98, epd_bitmap_allArray[digit]);  // Adjust x, y, width, and height as needed
 }
 
 void displaylogo(int displayNumber, int digit) {
   selectI2CChannel(displayNumber + 2);
   // Display large time digits
-  u8g2[displayNumber].drawXBMP(0, 0, 32, 32, logo_allArray[digit]);  // Adjust x, y, width, and height as needed
+  u8g2[displayNumber].drawXBMP(0, 98, 32, 32, logo_allArray[digit]);  // Adjust x, y, width, and height as needed
 }
 
 void display_day_of_the_week(int displayNumber, int digit) {
   selectI2CChannel(displayNumber + 2);
   // Display large time digits
-  u8g2[displayNumber].drawXBMP(0, 0, 32, 32, day_of_the_weekallArray[digit]);  // Adjust x, y, width, and height as needed
+  u8g2[displayNumber].drawXBMP(0, 98, 32, 32, day_of_the_weekallArray[digit]);  // Adjust x, y, width, and height as needed
 }
 
 void display_date(int displayNumber, int digit) {
   selectI2CChannel(displayNumber + 2);
   // Display large time digits
-  u8g2[displayNumber].drawXBMP(0, 0, 32, 32, calendar_date_allArray[digit]);  // Adjust x, y, width, and height as needed
+  u8g2[displayNumber].drawXBMP(0, 98, 32, 32, calendar_date_allArray[digit]);  // Adjust x, y, width, and height as needed
 }
 
 void display_month(int displayNumber, int digit) {
   selectI2CChannel(displayNumber + 2);
   // Display large time digits
-  u8g2[displayNumber].drawXBMP(0, 0, 32, 32, Month_allArray[digit]);  // Adjust x, y, width, and height as needed
+  u8g2[displayNumber].drawXBMP(0, 98, 32, 32, Month_allArray[digit]);  // Adjust x, y, width, and height as needed
 }
 
 
@@ -1095,49 +1096,52 @@ void loop() {
   sprintf(timeStr, "%02d%02d%02d", now.hour(), now.minute(), now.second());
 
   // Determine the part of the day
-  const char* partOfDay;
+  int partOfDay;
 
   int hour = now.hour();
   int minute = now.minute();
   int second = now.second();
-  if (hour >= 5 && hour < 12) {
-    partOfDay = "Monin";
-  } else if (hour >= 12 && hour < 17) {
-    partOfDay = "Noon";
-  } else if (hour >= 17 && hour < 21) {
-    partOfDay = "Evnin";
+  if (hour >= 5 && hour < 21) {
+    partOfDay = 0;  // Day time
   } else {
-    partOfDay = "Night";
+    partOfDay = 1;  // Night time
   }
+
 
   for (int i = 0; i < NUM_DISPLAYS; i++) {
     selectI2CChannel(i + 2);
     u8g2[i].clearBuffer();
 
-    // Display additional info at the bottom
-    u8g2[i].setFont(u8g2_font_7x14_tf);  // Small font for additional info
-    char additionalStr[15];              // Increased size for longer strings
+
     if (i == 0) {
       displayDigit(i, hour / 10);  // Day of the week
-      strcpy(additionalStr, daysOfTheWeek[now.dayOfTheWeek()]);
+      display_day_of_the_week(i, now.dayOfTheWeek());
     } else if (i == 1) {
       displayDigit(i, hour % 10);  // Part of the day
-      strcpy(additionalStr, partOfDay);
+      //strcpy(additionalStr, partOfDay);
+      displaylogo(i, partOfDay);
     } else if (i == 2) {
       displayDigit(i, minute / 10);  // "Temp ="
-      strcpy(additionalStr, "Temp=");
+      //strcpy(additionalStr, "Temp=");
+      displaylogo(i, 2);
     } else if (i == 3) {
       displayDigit(i, minute % 10);  // Temperature
-      sprintf(additionalStr, "%2.1fc", tempC);
+      // Display additional info at the bottom
+      u8g2[i].setFont(u8g2_font_8x13_tf);  // Small font for additional info
+      char additionalStr[15];              // Increased size for longer strings
+      sprintf(additionalStr, "%2.1f", tempC);
+      u8g2[i].drawStr(0, 122, additionalStr);
     } else if (i == 4) {
       displayDigit(i, second / 10);  // Date
-      sprintf(additionalStr, "D:%02d", now.day());
+      //sprintf(additionalStr, "D:%02d", now.day());
+      display_date(i, now.day() - 1);
     } else if (i == 5) {
       displayDigit(i, second % 10);  // Month
-      sprintf(additionalStr, "M:%02d", now.month());
+      //sprintf(additionalStr, "M:%02d", now.month());
+      display_month(i, now.month() - 1);
     }
 
-    u8g2[i].drawStr(0, 126, additionalStr);
+
     u8g2[i].sendBuffer();
   }
 
