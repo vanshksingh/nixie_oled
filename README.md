@@ -1,4 +1,4 @@
-# Nixe OLED Clock Project
+# Nixe OLED Clock Project !
 
 The Nixe OLED Clock is a modern take on the classic Nixie tube clock, using six 128x32 OLED displays to create a visually stunning timepiece. This project involves the use of a microcontroller to control the OLED displays, displaying time in a unique and elegant manner. Perfect for DIY enthusiasts and those who appreciate a blend of technology and art in their decor.
 
