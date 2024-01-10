@@ -13,7 +13,7 @@ The Nixe OLED Clock is a modern take on the classic Nixie tube clock, using six 
 7. Troubleshooting
 8. Contributing
 9. License
-10. Contact
+10. Contacts
 
 ## Introduction
 
